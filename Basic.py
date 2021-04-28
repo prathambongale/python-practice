@@ -12,8 +12,113 @@ if spam_amount > 0:
 viking_song = "Spam " * spam_amount
 print(viking_song) # This will print "Spam Spam Spam Spam"
 
-
 viking_song = 4 * spam_amount
 print(viking_song) # This will print "16"
-
 # operators like * and + have a different meaning depending on what kind of thing they're applied to. (The technical term for this is operator overloading)
+
+print("")
+print("")
+print("---------------------------------------")
+print("")
+print("")
+# Data Types: Number, Float
+
+# Operations: Number
+
+a = 10
+b = 6
+print("Value of a: ")
+print(a)
+print("Value of b: ")
+print(b)
+
+print("")
+print("")
+
+# Additions
+print("Addition :")
+print("a + b = ")
+print(a + b)
+
+print("")
+
+# Subtraction
+print("Subtraction :")
+print("a - b = ")
+print(a - b)
+
+print("")
+
+# Multiplication
+print("Multiplication :")
+print("a * b = ")
+print(a * b)
+
+print("")
+
+# True Division
+print("True Division :")
+print("a / b = ")
+print(a / b)
+
+print("")
+
+# Floor Division
+print("Floor Division (remove fractional part):")
+print("a // b = ")
+print(a // b)
+
+print("")
+
+# Modulus
+print("Modulus:")
+print("a % b = ")
+print(a % b)
+
+print("")
+
+# Exponentiation
+print("Exponentiation:")
+print("a ** b = ")
+print(a ** b)
+
+print("")
+
+# Negation
+print("Negation:")
+print("-a = ")
+print(-a)
+
+print("")
+
+# Operations get executed in "PEMDAS - Parentheses, Exponents, Multiplication/Division, Addition/Subtraction" order
+
+hat_height_cm = 25
+my_height_cm = 190
+# How tall am I, in meters, when wearing my hat?
+total_height_meters = hat_height_cm + my_height_cm / 100
+print("Height in meters =", total_height_meters, "?")
+print("")
+
+total_height_meters = (hat_height_cm + my_height_cm) / 100
+print("Height in meters =", total_height_meters)
+print("")
+
+# Build in functions
+print(min(10,52,87))
+print(max(10,52,87))
+print("")
+
+# Absolute value
+print(abs(89.0))
+print(abs(-89.0))
+print(abs(89))
+print(abs(-89))
+print("")
+
+print(float(115))
+print(int(7.8956))
+print("")
+
+print(float(10.8) + 10.2)
+print("")
