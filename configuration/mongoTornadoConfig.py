@@ -13,6 +13,8 @@ async def do_count():
     n = await userCollection.count_documents({'i': {'$gt': 1000}})
     print('%s documents where i > 1000' % n)
 
+
 #IOLoop.current().run_sync(do_count)
 
 tornado.ioloop.IOLoop.current().run_sync(do_count)
+
