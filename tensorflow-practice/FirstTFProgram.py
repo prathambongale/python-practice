@@ -1,3 +1,5 @@
+# This code is from "Intro to TensorFlow for Deep Learning" course from Udacity 
+
 import tensorflow as tf
 import numpy as np
 import logging
