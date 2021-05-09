@@ -16,21 +16,26 @@ import logging
 logger = tf.get_logger()
 logger.setLevel(logging.ERROR)
 
+# loading tensorflow dataset called 'fashion_mnist'
 dataset, metadata = tfds.load('fashion_mnist', as_supervised=True, with_info=True)
+# Spliting the dataset into train and test dataset
 train_dataset, test_dataset = dataset['train'], dataset['test']
 
+# Maping numeric values to human readable string
 class_names = metadata.features['label'].names
 print("Class names: {}".format(class_names))
 
+# Check the trainf and test data
 num_train_examples = metadata.splits['train'].num_examples
 num_test_examples = metadata.splits['test'].num_examples
 print("Number of training examples: {}".format(num_train_examples))
 print("Number of test examples: {}".format(num_test_examples))
 
+# Preprocess the data by applying normalize function to each dataset
 def normalize(images, labels):
-    images = tf.cast(images, tf.float32)
-    images /= 255
-    return images, labels
+    images = tf.cast(images, tf.float32) # Cast every pixel value to flot type
+    images /= 255 # normalize pixel value range to be between 0 and 1 instead of 0 and 255
+    return images, labels # Pair
 
 # The map function applies the normalize function to each element in the train
 # and test datasets
@@ -39,7 +44,6 @@ test_dataset =test_dataset.map(normalize)
 
 # The first time you use the dataset, the images will be loaded from disk
 # Caching will keep them in memory, making training faster
-
 train_dataset = train_dataset.cache()
 test_dataset = test_dataset.cache()
 
@@ -66,20 +70,29 @@ for i, (image, label) in enumerate(test_dataset.take(25)):
     plt.xlabel(class_names[label])
 plt.show()
 
+# Build the model
 model = tf.keras.Sequential([
-    tf.keras.layers.Flatten(input_shape=(28, 28, 1)),
-    tf.keras.layers.Dense(128, activation=tf.nn.relu),
-    tf.keras.layers.Dense(10, activation=tf.nn.softmax)
+    tf.keras.layers.Flatten(input_shape=(28, 28, 1)), # Flatten the image from 2 dimension of 28,28 pixel to 1 dimension of 784 pixel 
+    tf.keras.layers.Dense(128, activation=tf.nn.relu), # 128 neurons 
+    tf.keras.layers.Dense(10, activation=tf.nn.softmax) # Using softmax create probibility distribution for different clothing items, all suming to 1
 ])
 
+# Compile the model using adam optimizer
+# If no learning rate is specified it will use default learning rate
 model.compile(optimizer='adam', loss=tf.keras.losses.SparseCategoricalCrossentropy(), metrics=['accuracy'])
 
+# Specifying iteration parameters for the dataset
+# Repeat() flag will specify that the dataset should iterate forever
 BATCH_SIZE = 32
+# Shuffle randomizes the order of the examples
+# Batch groupds 32 examples while doing the training, this will speads up the training process
 train_dataset = train_dataset.cache().repeat().shuffle(num_train_examples).batch(BATCH_SIZE)
 test_dataset = test_dataset.cache().batch(BATCH_SIZE)
 
+# trianing combination will be determind by epochs parameter in fit method
 model.fit(train_dataset, epochs=5, steps_per_epoch=math.ceil(num_train_examples/BATCH_SIZE))
 
+# will evaluate the accuracy on test dataset
 test_loss, test_accuracy = model.evaluate(test_dataset, steps=math.ceil(num_test_examples/32))
 print('Accuracy on test dataset:', test_accuracy)
 
@@ -110,7 +123,8 @@ def plot_image(i, predictions_array, true_labels, images):
     else:
         color = 'red'
 
-    plt.xlabel("{} {:2.0f}% ({})".format(class_names[predicted_label], 100*np.max(predictions_array), class_names[true_label]), color=color) 
+    plt.xlabel("{} {:2.0f}% ({})".format(class_names[predicted_label], 100*np.max(predictions_array), class_names[true_label]), color=color)
+    plt.show()
 
 def plot_value_array(i, predictions_array, true_label):
     predictions_array, true_label = predictions_array[i], true_label[i]
@@ -123,6 +137,7 @@ def plot_value_array(i, predictions_array, true_label):
 
     thisplot[predicted_label].set_color('red')
     thisplot[true_label].set_color('blue')
+    plt.show()
 
 i = 0
 plt.figure(figsize=(6,3))
@@ -168,5 +183,3 @@ plot_value_array(0, predictions_single, test_labels)
 _ = plt.xticks(range(10), class_names, rotation=45)
 
 np.argmax(predictions_single[0])
-
-print("End of Progam...")
